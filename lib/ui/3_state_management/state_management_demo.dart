@@ -1,49 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/ui/3_state_management/state_management_manager.dart';
 
-class StateManagementDemo extends StatelessWidget {
+class StateManagementDemo extends StatefulWidget {
   const StateManagementDemo({super.key});
 
- @override
+  @override
+  State<StateManagementDemo> createState() => _StateManagementDemoState();
+}
+
+class _StateManagementDemoState extends State<StateManagementDemo> {
+  final manager = StateManagementManager();
+
+  @override
+  void initState() {
+    super.initState();
+    manager.init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('State Management')),
-      body: Column(
-        children: [
-          Text('Hello'),
-          Text('World'),
-          Text('and MIU'),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.travel_explore),
-          ),
-          IconButton(
-            onPressed: () {
-              print('hello');
-            },
-            icon: Icon(Icons.waving_hand),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              print('Elevated button was clicked!');
-            },
-            child: Text('Click me'),
-          ),
-          SizedBox(height: 16),
-          OutlinedButton(
-            onPressed: () {
-              print('Outlined button was clicked!');
-            },
-            child: Text('Click me'),
-          ),
-          SizedBox(height: 16),
-          TextButton(
-            onPressed: () {
-              print('Text button was clicked!');
-            },
-            child: Text('Click me', style: TextStyle(color: Colors.red)),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            ValueListenableBuilder<Color>(
+              valueListenable: manager.colorNotifier,
+              builder: (context, color, child) {
+                return Container(
+                  color: color,
+                  width: 200,
+                  height: 200,
+                  child: Center(
+                    child: ValueListenableBuilder(
+                      valueListenable: manager.numberNotifier,
+                      builder: (context, value, child) {
+                        return Text('$value', style: TextStyle(fontSize: 50));
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton(
+              onPressed: manager.changeColor,
+              child: Text('Change color'),
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton(
+              onPressed: manager.changeText,
+              child: Text('Change text'),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+

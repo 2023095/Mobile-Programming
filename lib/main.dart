@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:lesson_02/ui/2_widget_layout/widgets_layout_demo.dart';
-import 'package:lesson_02/ui/3_state_management/state_management_demo.dart';
-import '1_dart/dart_demo_screen.dart';
+import 'package:flutter_demo/services/local_storage/local_storage.dart';
+import 'package:flutter_demo/services/service_locator.dart';
+import 'package:flutter_demo/ui/2_widget_layout/widgets_layout_demo.dart';
+import 'package:flutter_demo/ui/3_state_management/state_management_demo.dart';
+import 'package:flutter_demo/ui/4_user_login/login_screen.dart';
+import 'ui/1_dart/dart_demo_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupServiceLocator();
+  await getIt<LocalStorage>().init();
   runApp(const MyApp());
 }
 
@@ -44,7 +50,6 @@ class HomeScreen extends StatelessWidget {
             },
           ),
 
-
           ListTile(
             title: const Text("2. Widgets and layout"),
             leading: const Icon(Icons.code),
@@ -58,9 +63,8 @@ class HomeScreen extends StatelessWidget {
             },
           ),
 
-
           ListTile(
-            title: const Text("3. State Management"),
+            title: const Text("3. State management"),
             leading: const Icon(Icons.code),
             onTap: () {
               Navigator.push(
@@ -68,6 +72,17 @@ class HomeScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => const StateManagementDemo(),
                 ),
+              );
+            },
+          ),
+
+          ListTile(
+            title: const Text("4. User login"),
+            leading: const Icon(Icons.code),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
             },
           ),
