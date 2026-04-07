@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/ui/3_state_management/state_management_manager.dart';
+import 'package:flutter_demo/ui/demos/3_state_managment/state_management_manager.dart';
 
 class StateManagementDemo extends StatefulWidget {
   const StateManagementDemo({super.key});
@@ -59,4 +59,3 @@ class _StateManagementDemoState extends State<StateManagementDemo> {
     );
   }
 }
-

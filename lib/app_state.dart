@@ -1,0 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_demo/services/local_storage/local_storage.dart';
+import 'package:flutter_demo/services/service_locator.dart';
+
+class AppState extends ChangeNotifier {
+  final localStorage = getIt<LocalStorage>();
+
+  ThemeMode _theme = ThemeMode.system;
+  ThemeMode get theme => _theme;
+
+  Future<void> init() async {
+    final savedThemeMode = localStorage.getTheme();
+  }
+}

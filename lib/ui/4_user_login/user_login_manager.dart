@@ -1,29 +1,25 @@
+import 'package:flutter_demo/services/auth/auth.dart';
+import 'package:flutter_demo/services/service_locator.dart';
+
 class UserLoginManager {
+  final _authService = getIt<Auth>();
+
   Future<bool> login({required String email, required String password}) async {
-    // TODO
-    return true;
+    return await _authService.login(email: email, password: password);
   }
 
   /// Registers a new user.
   Future<bool> signUp({required String email, required String password}) async {
-    // TODO
-    return true;
+    return await _authService.signup(email: email, password: password);
   }
 
   /// Logs out the current user.
   Future<void> logout() async {
-    // TODO
-  }
-
-  /// Sends a password reset email or OTP.
-  Future<bool> resetPassword({required String email}) async {
-    // TODO: delete me
-    return true;
+    await _authService.logout();
   }
 
   /// Checks if a user is currently logged in.
   Future<bool> isLoggedIn() async {
-    // TODO
-    return false;
+    return _authService.isLoggedIn();
   }
 }
