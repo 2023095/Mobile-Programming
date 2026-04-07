@@ -1,8 +1,12 @@
 # Flutter Demo
 
-This project will demostrate different features of Flutter.
+This project will demonstrate different features of Flutter.
 
+```
 git status
 git add .
-git commit -m "Add project files smth"
+git commit -m "your message"
 git push
+
+git pull
+```

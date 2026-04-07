@@ -9,6 +9,13 @@ class AppState extends ChangeNotifier {
   ThemeMode get theme => _theme;
 
   Future<void> init() async {
-    final savedThemeMode = localStorage.getTheme();
+    _theme = localStorage.getTheme();
+    notifyListeners();
+  }
+
+  Future<void> setThemeMode(ThemeMode theme) async {
+    _theme = theme;
+    await localStorage.setTheme(theme);
+    notifyListeners();
   }
 }

@@ -1,7 +1,7 @@
 name: flutter_demo
 description: "A new Flutter project."
 publish_to: 'none' 
-version: 1.0.0+1
+version: 2.1.1+7
 
 environment:
   sdk: ^3.10.7
@@ -9,10 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.16.0
-  shared_preferences: ^2.2.2
-  get_it: ^7.6.4
+  cupertino_icons: ^1.0.8
+  get_it: ^9.2.1
+  shared_preferences: ^2.5.4
+  firebase_core: ^4.5.0
+  firebase_auth: ^6.2.0
 
 dev_dependencies:
   flutter_test:
