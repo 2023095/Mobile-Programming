@@ -6,8 +6,10 @@ import 'package:flutter_demo/theme.dart';
 import 'package:flutter_demo/ui/demos/2_widget_layout/widgets_layout_demo.dart';
 import 'package:flutter_demo/ui/demos/3_state_managment/state_management_demo.dart';
 import 'package:flutter_demo/ui/demos/4_user_login/login_screen.dart';
+import 'package:flutter_demo/ui/demos/5_sqlite/database.dart';
 import 'package:flutter_demo/ui/demos/5_sqlite/sqlite_demo.dart';
 import 'package:flutter_demo/ui/settings/settings_screen.dart';
+import 'package:sqflite/sqlite_api.dart';
 import 'ui/demos/1_dart/dart_demo_screen.dart';
 
 Future<void> main() async {
@@ -17,6 +19,7 @@ Future<void> main() async {
   // TODO: fix firebase
   // await getIt<Auth>().init();
   await getIt<AppState>().init();
+  await getIt<DatabaseHelper>().init();
   runApp(const MyApp());
 }
 
