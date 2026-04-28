@@ -1,7 +1,7 @@
 name: flutter_demo
 description: "A new Flutter project."
 publish_to: 'none' 
-version: 2.1.1+7
+version: 1.0.1+2
 
 environment:
   sdk: ^3.10.7
@@ -14,14 +14,20 @@ dependencies:
   shared_preferences: ^2.5.4
   firebase_core: ^4.5.0
   firebase_auth: ^6.2.0
-  sqflite: ^2.4.2
+  # sqflite: ^2.4.2
+  drift: ^2.24.0
+  drift_flutter: ^0.3.0 # Automatically handles Web & Native connections!
+  sqlite3: ^3.3.1
   path_provider: ^2.1.5
   path: ^1.9.1
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  build_runner: ^2.14.0
+  drift_dev: ^2.32.1
 
 flutter:
   uses-material-design: true

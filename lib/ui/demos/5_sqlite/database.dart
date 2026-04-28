@@ -1,68 +1,36 @@
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:drift/drift.dart';
+import 'package:drift_flutter/drift_flutter.dart';
 
-class DatabaseHelper {
-  static const _dbName = 'my_database.db';
-  static const _dbVersion = 1;
+part 'database.g.dart';
 
-  static const table = 'myTable';
-  static const columnId = '_id';
-  static const columnName = 'name';
-  static const columnAge = 'age';
+class MyTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  IntColumn get age => integer()();
+}
 
-  late Database _database;
+@DriftDatabase(tables: [MyTable])
+class AppDatabase extends _$AppDatabase {
+  AppDatabase() : super(_openConnection());
 
-  Future<void> init() async {
-    final folder = await getApplicationDocumentsDirectory();
-    final path = join(folder.path, _dbName);
-    _database = await openDatabase(
-      path,
-      version: _dbVersion,
-      onCreate: _onCreate,
-    );
-  }
+  @override
+  int get schemaVersion => 1;
 
-  Future<void> _onCreate(Database db, int version) async {
-    final sql =
-        '''
-CREATE TABLE $table (
-$columnId INTEGER PRIMARY KEY,
-$columnName TEXT NOT NULL,
-$columnAge INTEGER NOT NULL
-)
-''';
-    await db.execute(sql);
-  }
+  Future<int> insertRow(MyTableCompanion row) => into(myTable).insert(row);
+  Future<List<MyTableData>> queryAllRows() => select(myTable).get();
+  Future<bool> updateRow(MyTableData row) => update(myTable).replace(row);
+  Future<int> deleteRow(int id) =>
+      (delete(myTable)..where((t) => t.id.equals(id))).go();
+}
 
-  Future<int> insert(Map<String, dynamic> row) async {
-    return await _database.insert(table, row);
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
-    return await _database.query(table);
-  }
-
-  Future<int> queryRowCount() async {
-    final results = await _database.rawQuery('SELECT COUNT(*) FROM $table');
-    return Sqflite.firstIntValue(results) ?? 0;
-  }
-
-  Future<int> update(Map<String, dynamic> row) async {
-    int id = row[columnId];
-    return await _database.update(
-      table,
-      row,
-      where: '$columnId = ?',
-      whereArgs: [id],
-    );
-  }
-
-  Future<int> delete(int id) async {
-    return await _database.delete(
-      table,
-      where: '$columnId = ?',
-      whereArgs: [id],
-    );
-  }
+QueryExecutor _openConnection() {
+  return driftDatabase(
+    name: 'my_app_db',
+    // You MUST provide DriftWebOptions for the web to work.
+    // It is safely ignored when running on Android/iOS.
+    web: DriftWebOptions(
+      sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+      driftWorker: Uri.parse('drift_worker.js'),
+    ),
+  );
 }

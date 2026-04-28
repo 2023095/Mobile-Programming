@@ -24,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text('Theme'),
                 subtitle: Text(manager.currentThemeTitle),
                 onTap: () async {
-                  final theme = await _showThemeDialog();
+                  await _showThemeDialog();
                 },
               ),
             ],

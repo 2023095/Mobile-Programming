@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/services/service_locator.dart';
 import 'package:flutter_demo/ui/demos/5_sqlite/database.dart';
+import 'package:drift/drift.dart' as drift;
 
 class SqliteDemo extends StatefulWidget {
   const SqliteDemo({super.key});
@@ -9,52 +11,52 @@ class SqliteDemo extends StatefulWidget {
 }
 
 class _SqliteDemoState extends State<SqliteDemo> {
-  final db = getIt<DatabaseHelper>();
+  final db = getIt<AppDatabase>(); // Use the new AppDatabase
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: const Text('Drift Demo')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
               onPressed: () {
-                final row = {
-                  DatabaseHelper.columnName: 'John',
-                  DatabaseHelper.columnAge: 33,
-                };
-                db.insert(row);
+                db.insertRow(
+                  MyTableCompanion(
+                    name: const drift.Value('John'),
+                    age: const drift.Value(33),
+                  ),
+                );
               },
-              child: Text('insert'),
+              child: const Text('Insert'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 final rows = await db.queryAllRows();
-                print(rows);
+                for (var row in rows) {
+                  print('ID: ${row.id}, Name: ${row.name}, Age: ${row.age}');
+                }
               },
-              child: Text('query'),
+              child: const Text('Query (See Console)'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                final row = {
-                  DatabaseHelper.columnId: 1,
-                  DatabaseHelper.columnName: 'Jonathan',
-                  DatabaseHelper.columnAge: 33,
-                };
-                db.update(row);
+                db.updateRow(
+                  const MyTableData(id: 1, name: 'Jonathan', age: 34),
+                );
               },
-              child: Text('update'),
+              child: const Text('Update'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                db.delete(1);
+                db.deleteRow(1);
               },
-              child: Text('delete'),
+              child: const Text('Delete'),
             ),
           ],
         ),
