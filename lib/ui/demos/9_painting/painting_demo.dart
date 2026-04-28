@@ -13,50 +13,119 @@ class PaintingDemo extends StatefulWidget {
 }
 
 class _PaintingDemoState extends State<PaintingDemo> {
+  double _control1x = 30.0;
+  double _control1y = 150.0;
+  double _control2x = 270.0;
+  double _control2y = 30.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(),
-      // body: Center(
-      //   child: Container(
-      //     // color: Colors.cyan,
-      //     child: ProgressBar(
-      //       barColor: Colors.blue,
-      //       thumbColor: Colors.red,
-      //       thumbSize: 20.0,
-      //     ),
-      //   ),
-      // ),
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-          child: CustomPaint(size: Size(300, 300), painter: MyPainter()),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 0,
+              child: Column(
+                children: [
+                  _buildSlider(
+                    label: 'Control 1 X',
+                    value: _control1x,
+                    onChanged: (value) => setState(() => _control1x = value),
+                  ),
+                  _buildSlider(
+                    label: 'Control 1 Y',
+                    value: _control1y,
+                    onChanged: (value) => setState(() => _control1y = value),
+                  ),
+                  _buildSlider(
+                    label: 'Control 2 X',
+                    value: _control2x,
+                    onChanged: (value) => setState(() => _control2x = value),
+                  ),
+                  _buildSlider(
+                    label: 'Control 2 Y',
+                    value: _control2y,
+                    onChanged: (value) => setState(() => _control2y = value),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                child: CustomPaint(
+                  size: const Size(300, 300),
+                  painter: MyPainter(
+                    control1: Offset(_control1x, _control1y),
+                    control2: Offset(_control2x, _control2y),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSlider({
+    required String label,
+    required double value,
+    required ValueChanged<double> onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('$label: ${value.toStringAsFixed(0)}'),
+        Slider(
+          value: value,
+          min: 0,
+          max: 300,
+          divisions: 300,
+          label: value.toStringAsFixed(0),
+          onChanged: onChanged,
+        ),
+      ],
     );
   }
 }
 
 class MyPainter extends CustomPainter {
+  MyPainter({
+    required this.control1,
+    required this.control2,
+  });
+
+  final Offset control1;
+  final Offset control2;
+
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path()
       ..moveTo(50, 50)
-      //..lineTo(200, 200)
-      //..quadraticBezierTo(30, 150, 150, 100)
-      //..quadraticBezierTo(250, 60, 240, 150);
-      ..cubicTo(30, 150, 270, 30, 240, 150);
+      ..cubicTo(control1.dx, control1.dy, control2.dx, control2.dy, 240, 150);
+
     final paint = Paint()
       ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4;
     canvas.drawPath(path, paint);
+
+    final debugPaint = Paint()
+      ..color = Colors.blue.withOpacity(0.5)
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(control1, 6.0, debugPaint);
+    canvas.drawCircle(control2, 6.0, debugPaint);
   }
 
   @override
-  bool shouldRepaint(CustomPainter old) {
-    return false;
+  bool shouldRepaint(covariant MyPainter old) {
+    return old.control1 != control1 || old.control2 != control2;
   }
 }
 
