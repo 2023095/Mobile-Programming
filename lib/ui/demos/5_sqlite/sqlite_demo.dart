@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/services/service_locator.dart';
 import 'package:flutter_demo/ui/demos/5_sqlite/database.dart';
 
 class SqliteDemo extends StatefulWidget {

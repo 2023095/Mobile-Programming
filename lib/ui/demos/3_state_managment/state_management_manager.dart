@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/services/local_storage/local_storage.dart';
-import 'package:flutter_demo/services/service_locator.dart';
 
 class StateManagementManager {
   final colorNotifier = ValueNotifier<Color>(Colors.black);
