@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/app_state.dart';
+import 'package:flutter_demo/l10n/app_localizations.dart';
 import 'package:flutter_demo/services/local_storage/local_storage.dart';
 import 'package:flutter_demo/services/service_locator.dart';
 import 'package:flutter_demo/theme.dart';
+import 'package:flutter_demo/ui/demos/11_animations/animations_demo.dart';
+import 'package:flutter_demo/ui/demos/12_permissions/permissions_demo.dart';
+import 'package:flutter_demo/ui/demos/13_localization/localization_demo.dart';
 import 'package:flutter_demo/ui/demos/2_widget_layout/widgets_layout_demo.dart';
 import 'package:flutter_demo/ui/demos/3_state_managment/state_management_demo.dart';
-import 'package:flutter_demo/ui/demos/4_user_login/login_screen.dart';
 import 'package:flutter_demo/ui/demos/5_sqlite/sqlite_demo.dart';
 import 'package:flutter_demo/ui/demos/6_networking/networking_demo.dart';
 import 'package:flutter_demo/ui/demos/7_testing/calculator_demo.dart';
@@ -47,6 +50,9 @@ class _MyAppState extends State<MyApp> {
           theme: materialTheme.light(),
           darkTheme: materialTheme.dark(),
           themeMode: appState.theme,
+          locale: appState.locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: const HomeScreen(),
         );
       },
@@ -123,17 +129,6 @@ class HomeScreen extends StatelessWidget {
           ),
 
           ListTile(
-            title: const Text("4. User login"),
-            leading: const Icon(Icons.code),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
-            },
-          ),
-
-          ListTile(
             title: const Text("5. SQLite"),
             leading: const Icon(Icons.code),
             onTap: () {
@@ -184,6 +179,43 @@ class HomeScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const PaintingDemo()),
+              );
+            },
+          ),
+
+          ListTile(
+            title: const Text("11. Animations"),
+            leading: const Icon(Icons.code),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AnimationDemo()),
+              );
+            },
+          ),
+
+          ListTile(
+            title: const Text("12. Permissions"),
+            leading: const Icon(Icons.code),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PermissionsDemo(),
+                ),
+              );
+            },
+          ),
+
+          ListTile(
+            title: const Text("13. Localization"),
+            leading: const Icon(Icons.code),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LocalizationDemo(),
+                ),
               );
             },
           ),

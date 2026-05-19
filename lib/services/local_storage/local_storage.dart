@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,6 +6,7 @@ class LocalStorage {
   static const _colorKey = 'color';
   static const _numberKey = 'number';
   static const _themeKey = 'theme';
+  static const _localeKey = 'locale';
 
   Future<void> init() async {
     prefs = await SharedPreferences.getInstance();
@@ -50,5 +50,19 @@ class LocalStorage {
     } else {
       await prefs.remove(_themeKey);
     }
+  }
+
+  Locale? getLocale() {
+    final localeTag = prefs.getString(_localeKey);
+    if (localeTag == null || localeTag.isEmpty) return null;
+    return Locale(localeTag);
+  }
+
+  Future<void> setLocale(Locale? locale) async {
+    if (locale == null) {
+      await prefs.remove(_localeKey);
+      return;
+    }
+    await prefs.setString(_localeKey, locale.languageCode);
   }
 }

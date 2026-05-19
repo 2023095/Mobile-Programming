@@ -1,0 +1,6 @@
+{
+    "helloWorld": "Hello world!",
+    "@helloWorld": {
+        "description": "This is a greeting on the Localization Demo page"
+    }
+}
